@@ -2,10 +2,13 @@ package tw.edu.yuntech.b10917025.interactive_menu;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,61 +27,37 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import android.os.Bundle;
 
+public class MainActivity extends AppCompatActivity {
     private SurfaceView surfaceView;
+    private int temp = 0;
     private TextView textView;
     private CameraSource cameraSource;
-    private SQLiteDatabase db = null;
+
+    private ArrayList<ArrayList> arrayLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        db = openOrCreateDatabase("menudb.db", MODE_PRIVATE, null);
-
-        try {
-
-            String CREATE_DongsCoffee_TABLE = "CREATE TABLE DongsCoffee ( " +
-                    "name, " +
-                    "price, " +
-                    "element, " +
-                    "introduction, " +
-                    "glb )";
-
-            db.execSQL(CREATE_DongsCoffee_TABLE);
-
-            db.execSQL("INSERT INTO DongsCoffee (name, price, element, introduction, glb) VALUES ('冬瓜特調', 60, '冬瓜茶、摩卡咖啡、檸檬、可可粉','冬瓜與咖啡的碰撞\n" +
-                    "產生綿密如啤酒般的泡沫\uD83C\uDF7B\n" +
-                    "入口帶著冬瓜香甜與淡淡的\uD83C\uDF4B酸感\n" +
-                    "中段是摩卡咖啡的濃郁質地\n" +
-                    "最後則是可可的細緻餘韻\n" +
-                    "這是你從未感受過的…\n" +
-                    "冬瓜與咖啡的協奏曲\uD83C\uDFBC', '.glb')");
-            db.execSQL("INSERT INTO DongsCoffee (name, price, element, introduction) VALUES ('冬瓜拿鐵', 60, '冬瓜茶、鮮乳','懷舊的冬瓜茶與文青必備的拿鐵\n" +
-                    "細細品嚐入口的甘與苦\uD83E\uDD70\n" +
-                    "加10元還能多一份珍珠\uD83E\uDDCB\n" +
-                    "為你的冬瓜拿鐵帶來更多的口感', '.glb')");
-            db.execSQL("INSERT INTO DongsCoffee (name, price, element, introduction) VALUES ('氣泡冬瓜', 40, '冬瓜茶、氣泡水','年復一年，攤復一攤的冬瓜茶\n" +
-                    "是不是已經喝膩了？\n" +
-                    "\n" +
-                    "經典冬瓜茶，搭配上氣泡bobo\n" +
-                    "為炎熱的雲科注入一股新活力\uD83C\uDFDD\n" +
-                    "綿密的氣泡口感在嘴中迸發\n" +
-                    "帶著淡淡的冬瓜香氣與甜感\n" +
-                    "清爽消暑不死甜～\n" +
-                    "\n" +
-                    "加5元還能升級成氣泡冬瓜檸檬\n" +
-                    "顛覆你印象中的冬瓜茶\uD83E\uDD29', '.glb')");
-            db.execSQL("INSERT INTO DongsCoffee (name, price, element, introduction) VALUES ('珍珠咖啡紅茶', 60, '摩卡咖啡、錫蘭紅茶、冬瓜蜜珍珠','入口時迸發的咖啡與紅茶香\uD83C\uDF42\n" +
-                    "QQ珍珠帶著淡淡的冬瓜甜感\n" +
-                    "三者間的完美協調\n" +
-                    "喜歡口感的你不能錯過\uD83D\uDE3B', '.glb')");
-        } catch (Exception e) {
-        }
-
         getPermissionCamera();
+
+        arrayLists = new ArrayList<>();
+        arrayLists.add(new ArrayList<String>());
+        arrayLists.add(new ArrayList<String>());
+
+        arrayLists.get(0).add("aa");
+        arrayLists.get(0).add("100");
+        arrayLists.get(0).add("100");
+        arrayLists.get(0).add("100");
+        arrayLists.get(0).add("Cappuccino_cup.glb");
+
+        arrayLists.get(1).add("bb");
+        arrayLists.get(1).add("200");
+        arrayLists.get(1).add("200");
+        arrayLists.get(1).add("200");
+        arrayLists.get(1).add("Cappuccino_cup.glb");
 
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         textView = (TextView) findViewById(R.id.textView);
@@ -96,16 +75,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void receiveDetections(@NonNull Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
-                if (qrCodes.size() != 0) {
+                if (qrCodes.size() != 0 && temp == 0) {
+
                     textView.post(() -> textView.setText(qrCodes.valueAt(0).displayValue));
 
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("store", qrCodes.valueAt(0).displayValue);
-                    db.close();
+                    bundle.putStringArrayList("0", arrayLists.get(0));
+                    bundle.putStringArrayList("1", arrayLists.get(1));
 
                     intent.putExtras(bundle);
+                    finish();
                     startActivity(intent);
+                    temp = 1;
+
+                    onDestroy();
                 }
             }
         });
@@ -137,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
                 cameraSource.stop();
             }
         });
-
     }
 
     private static final int REQUEST_CAMERA_PERMISSION = 1;
@@ -190,7 +174,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
-        db.close();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraSource.release();
+            }
+        });
+
+//        db.close();
     }
 }

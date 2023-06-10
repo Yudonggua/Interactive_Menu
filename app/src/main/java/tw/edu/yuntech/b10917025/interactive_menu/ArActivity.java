@@ -6,8 +6,12 @@ import android.os.Bundle;
 
 import com.google.ar.sceneform.ux.ArFragment;
 
+import java.util.ArrayList;
+
 public class ArActivity extends AppCompatActivity {
+
     ArFragment arFragment;
+    private ArrayList<String> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +19,11 @@ public class ArActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ar);
 
 
+        arrayList = new ArrayList<>();
+        Bundle bundle = getIntent().getExtras();
+        arrayList = bundle.getStringArrayList("meal");
+
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arFragment);
-        arFragment.setOnTapPlaneGlbModel("Cappuccino_cup.glb");
+        arFragment.setOnTapPlaneGlbModel(arrayList.get(4));
     }
 }
