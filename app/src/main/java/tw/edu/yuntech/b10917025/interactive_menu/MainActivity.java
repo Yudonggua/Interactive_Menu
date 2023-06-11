@@ -2,10 +2,8 @@ package tw.edu.yuntech.b10917025.interactive_menu;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,8 +25,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.os.Bundle;
-
 public class MainActivity extends AppCompatActivity {
     private SurfaceView surfaceView;
     private int temp = 0;
@@ -46,18 +42,59 @@ public class MainActivity extends AppCompatActivity {
         arrayLists = new ArrayList<>();
         arrayLists.add(new ArrayList<String>());
         arrayLists.add(new ArrayList<String>());
+        arrayLists.add(new ArrayList<String>());
+        arrayLists.add(new ArrayList<String>());
 
-        arrayLists.get(0).add("aa");
-        arrayLists.get(0).add("100");
-        arrayLists.get(0).add("100");
-        arrayLists.get(0).add("100");
+        arrayLists.get(0).add("氣泡冬瓜");
+        arrayLists.get(0).add("40");
+        arrayLists.get(0).add("氣泡水、冬瓜茶");
+        arrayLists.get(0).add("年復一年，攤復一攤的冬瓜茶\n" +
+                "是不是已經喝膩了？\n" +
+                "\n" +
+                "經典冬瓜茶，搭配上氣泡bobo\n" +
+                "為炎熱的雲科注入一股新活力\uD83C\uDFDD\n" +
+                "綿密的氣泡口感在嘴中迸發\n" +
+                "帶著淡淡的冬瓜香氣與甜感\n" +
+                "清爽消暑不死甜～\n" +
+                "\n" +
+                "加5元還能升級成氣泡冬瓜檸檬\n" +
+                "顛覆你印象中的冬瓜茶\uD83E\uDD29");
         arrayLists.get(0).add("Cappuccino_cup.glb");
+        arrayLists.get(0).add(Integer.toString( R.drawable.meal1));
 
-        arrayLists.get(1).add("bb");
-        arrayLists.get(1).add("200");
-        arrayLists.get(1).add("200");
-        arrayLists.get(1).add("200");
+        arrayLists.get(1).add("冬瓜特調");
+        arrayLists.get(1).add("60");
+        arrayLists.get(1).add("冬瓜茶、摩卡咖啡、可可粉、檸檬");
+        arrayLists.get(1).add("冬瓜與咖啡的碰撞\n" +
+                "產生綿密如啤酒般的泡沫\uD83C\uDF7B\n" +
+                "入口帶著冬瓜香甜與淡淡的\uD83C\uDF4B酸感\n" +
+                "中段是摩卡咖啡的濃郁質地\n" +
+                "最後則是可可的細緻餘韻\n" +
+                "這是你從未感受過的…\n" +
+                "冬瓜與咖啡的協奏曲\uD83C\uDFBC");
         arrayLists.get(1).add("Cappuccino_cup.glb");
+        arrayLists.get(1).add(Integer.toString( R.drawable.meal2));
+
+        arrayLists.get(2).add("冬瓜拿鐵");
+        arrayLists.get(2).add("60");
+        arrayLists.get(2).add("冬瓜茶、全脂鮮乳");
+        arrayLists.get(2).add("懷舊的冬瓜茶與文青必備的拿鐵\n" +
+                "細細品嚐入口的甘與苦\uD83E\uDD70\n" +
+                "加10元還能多一份珍珠\uD83E\uDDCB\n" +
+                "為你的冬瓜拿鐵帶來更多的口感\n");
+        arrayLists.get(2).add("Cappuccino_cup.glb");
+        arrayLists.get(2).add(Integer.toString( R.drawable.meal3));
+
+        arrayLists.get(3).add("珍珠咖啡紅茶");
+        arrayLists.get(3).add("60");
+        arrayLists.get(3).add("錫蘭紅茶、摩卡咖啡、冬瓜蜜珍珠");
+        arrayLists.get(3).add("入口時迸發的咖啡與紅茶香\uD83C\uDF42\n" +
+                "QQ珍珠帶著淡淡的冬瓜甜感\n" +
+                "三者間的完美協調\n" +
+                "喜歡口感的你不能錯過\uD83D\uDE3B");
+
+        arrayLists.get(3).add("Cappuccino_cup.glb");
+        arrayLists.get(3).add(Integer.toString( R.drawable.meal4));
 
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         textView = (TextView) findViewById(R.id.textView);
@@ -75,15 +112,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void receiveDetections(@NonNull Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
-                if (qrCodes.size() != 0 && temp == 0) {
-
-                    textView.post(() -> textView.setText(qrCodes.valueAt(0).displayValue));
+                if (qrCodes.size() != 0 && qrCodes.valueAt(0).displayValue.equals("dongscoffee")) {
 
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("store", qrCodes.valueAt(0).displayValue);
                     bundle.putStringArrayList("0", arrayLists.get(0));
                     bundle.putStringArrayList("1", arrayLists.get(1));
+                    bundle.putStringArrayList("2", arrayLists.get(2));
+                    bundle.putStringArrayList("3", arrayLists.get(3));
 
                     intent.putExtras(bundle);
                     finish();

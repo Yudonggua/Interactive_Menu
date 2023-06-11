@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,15 +25,14 @@ public class MenuAdapter extends ArrayAdapter<NameMapping> {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.menulayout, parent, false);
         }
 
-        //找到data，並在View上設定正確的data
+        ImageView imageView = listItemView.findViewById(R.id.imageView);
         NameMapping currentName = getItem(position);
+        TextView textViewName = listItemView.findViewById(R.id.textName);
+        TextView textViewPrice = listItemView.findViewById(R.id.textPrice);
 
-        //找到ListItem.xml中的兩個TextView(物種學名和中文名)
-        TextView tortoises_text_view = listItemView.findViewById(R.id.textName);
-        tortoises_text_view.setText(currentName.getName());
-
-        TextView default_text_view = listItemView.findViewById(R.id.textPrice);
-        default_text_view.setText(currentName.getPrice());
+        imageView.setImageResource(currentName.getImag());
+        textViewName.setText(currentName.getName());
+        textViewPrice.setText("Price: " + currentName.getPrice());
 
         return listItemView;
     }

@@ -1,5 +1,7 @@
 package tw.edu.yuntech.b10917025.interactive_menu;
 
+import android.graphics.drawable.Drawable;
+
 public class NameMapping {
 
     private String name;
@@ -7,20 +9,21 @@ public class NameMapping {
     private String element;
     private String introduction;
     private String glb;
+    private int imag;
 
-    public NameMapping(String name, String price) {
+    public NameMapping(String name, String price, int imag) {
         this.name = name;
         this.price = price;
-        this.element = element;
-        this.introduction = introduction;
-        this.glb = glb;
+        this.imag = imag;
+
     }
-    public NameMapping(String name, String price, String element, String introduction, String glb) {
+    public NameMapping(String name, String price, String element, String introduction, String glb, int imag) {
         this.name = name;
         this.price = price;
         this.element = element;
         this.introduction = introduction;
         this.glb = glb;
+        this.imag = imag;
     }
 
     public String getName() {
@@ -41,5 +44,8 @@ public class NameMapping {
 
     public String getGlb() {
         return glb;
+    }
+    public int getImag(){
+        return imag;
     }
 }

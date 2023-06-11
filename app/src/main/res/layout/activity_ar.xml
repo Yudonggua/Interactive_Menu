@@ -10,6 +10,54 @@
         android:id="@+id/arFragment"
         android:name="com.google.ar.sceneform.ux.ArFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="450dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textName_ar"
+        tools:layout="@layout/sceneform_ux_fragment_layout" />
+
+    <TextView
+        android:id="@+id/textName_ar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#3F5A49"
+        android:gravity="center"
+        android:text="MealName"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textIntro"
+        android:layout_width="240dp"
+        android:layout_height="0dp"
+        android:background="#3F5A49"
+        android:text="Introduction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arFragment" />
+
+    <TextView
+        android:id="@+id/textPrice_ar"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:background="#3F5A49"
+        android:text="Price"
+        app:layout_constraintBottom_toTopOf="@+id/textElement"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textIntro"
+        app:layout_constraintTop_toBottomOf="@+id/arFragment" />
+
+    <TextView
+        android:id="@+id/textElement"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#3F5A49"
+        android:text="Element"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textIntro"
+        app:layout_constraintTop_toBottomOf="@+id/textPrice_ar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
