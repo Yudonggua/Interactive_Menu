@@ -1,7 +1,5 @@
 package tw.edu.yuntech.b10917025.interactive_menu;
 
-import android.graphics.drawable.Drawable;
-
 public class NameMapping {
 
     private String name;

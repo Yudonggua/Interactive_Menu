@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void release() {
-
             }
 
             @Override
@@ -151,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -221,7 +219,5 @@ public class MainActivity extends AppCompatActivity {
                 cameraSource.release();
             }
         });
-
-//        db.close();
     }
 }
